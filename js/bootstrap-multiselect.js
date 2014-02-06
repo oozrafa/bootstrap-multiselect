@@ -58,6 +58,7 @@
         // Build select all if enabled.
         this.buildContainer();
         this.buildButton();
+        this.buildDoneButton();
         this.buildSelectAll();
         this.buildDropdown();
         this.buildDropdownOptions();
@@ -171,12 +172,13 @@
             preventInputChangeEvent: false,
             nonSelectedText: 'None selected',
             nSelectedText: 'selected',
-            numberDisplayed: 3
+            numberDisplayed: 3,
+            doneButtonText: "Done",
         },
 
         templates: {
             button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"></button>',
-            ul: '<ul class="multiselect-container dropdown-menu"></ul>',
+            doneButton: '<a href="#" style="display:none;" class="multiselect_done dropdown-toggle" data-toggle="dropdown"></a>',
             filter: '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input class="form-control multiselect-search" type="text"></div>',
             li: '<li><a href="javascript:void(0);"><label></label></a></li>',
             divider: '<li class="divider"></li>',
@@ -192,6 +194,14 @@
             this.$container = $(this.options.buttonContainer);
             this.$container.on('show.bs.dropdown', this.options.onDropdownShow);
             this.$container.on('hide.bs.dropdown', this.options.onDropdownHide);
+            
+            this.$container.on('show.bs.dropdown', function () {
+                $(this).find('.multiselect_done').show();
+            });
+            this.$container.on('hide.bs.dropdown', function () {
+                $(this).find('.multiselect_done').hide();
+            });
+            
         },
 
         /**
@@ -222,6 +232,21 @@
             }
 
             this.$container.prepend(this.$button);
+        },
+        
+        buildCloseButton: function () {
+            this.$closeButton = $(this.templates.closeButton);
+            this.$container.prepend(this.$closeButton)
+        },
+        
+        /**
+         * Builds the done button which helps users close the multiselect when their done
+         * Some ui testing found that clicking on the main button or outside the multiselect isn't
+         * intuitive enough, especially on mobile devices
+         */
+         buildDoneButton: function () {
+            this.$doneButton = $(this.templates.doneButton).html(this.options.doneButtonText);
+            this.$container.prepend(this.$doneButton);
         },
 
         /**
