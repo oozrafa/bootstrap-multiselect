@@ -179,6 +179,7 @@
         templates: {
             button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"></button>',
             doneButton: '<a href="#" style="display:none;" class="multiselect_done dropdown-toggle" data-toggle="dropdown"></a>',
+            ul: '<ul class="multiselect-container dropdown-menu"></ul>',
             filter: '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input class="form-control multiselect-search" type="text"></div>',
             li: '<li><a href="javascript:void(0);"><label></label></a></li>',
             divider: '<li class="divider"></li>',
@@ -234,11 +235,7 @@
             this.$container.prepend(this.$button);
         },
         
-        buildCloseButton: function () {
-            this.$closeButton = $(this.templates.closeButton);
-            this.$container.prepend(this.$closeButton)
-        },
-        
+       
         /**
          * Builds the done button which helps users close the multiselect when their done
          * Some ui testing found that clicking on the main button or outside the multiselect isn't
